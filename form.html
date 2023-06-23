@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body class="body-form">
+    <div class="form-container">
+    <div class="form-container-second ">
+      <h3>Registrate</h3>
+      <div class="form-content ">
+       <form class="form-ctn-scd" action="index.html">
+         <div class="form-sub-content">
+           <label for="nombre">Nombre</label>
+           <input type="text" id="nombre" required/>
+
+           <label for="apellido"> Apellido</label>
+           <input type="text" name="apellido" id="apellido" required/>
+
+           <label for="email"> Correo electrónico</label>
+           <input type="email" name="correo" id="email" required/>
+
+           <label for="passw"> Contraseña</label>
+           <input type="password" name="password" id="passw" required/>
+
+           <label for="date">Fecha de nacimiento</label>
+           <input type="date" name="" id="date" />
+           <div class="novedades-content">
+             <input type="checkbox" name="novedades" id="novedades" checked />
+             <label for="novedades">
+              Deseo recibir novedades y ofertas a mi correo electrónico.
+             </label> 
+           </div>
+         </div>  
+         <div class="form-content-bttn">
+             <button class="button"> Registrarme</button>
+             <span class="span">¿Ya estás registrado? <a href="./signin.html"> Inicia sesión</a></span>
+         </div>
+       </form>
+      </div>
+    </div>
+  </body>
+</html>

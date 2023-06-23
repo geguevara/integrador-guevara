@@ -1,0 +1,129 @@
+@media (max-width:1000px){
+    .slider{
+        width: 700px;
+    }
+    .img-go, .img-hero, .img-visa{
+        width: 900px;
+    }
+}
+
+@media (max-width:850px){
+    .header{
+        padding: 0 5%;
+        width: 100%;
+        display: flex;
+        align-content: space-between;
+        
+    }
+    .logo-navbar{
+        position: absolute;
+        right: 44vw;
+    }
+    .navbar{
+        width: 100%;
+        align-content: space-between;
+    }
+    .navbar i{
+        display: block;
+    }
+    .navbar-ul{
+        width: 400px;
+        height: calc(100vh - 80px);
+        position: absolute;
+        background-color: #dedddd;
+        flex-direction: column;
+        top: 80px;
+        left: 0;
+        gap: 40px;
+        padding: 50px;
+        z-index: 2;
+        display: none;
+        transition: 1s ease;
+        animation: bounceOut;
+        animation-duration: 1s;
+    }
+    #menu-label{
+        display: flex;
+    }
+    .open-menu{
+        display: flex;
+        animation: bounceInLeft;
+        animation-duration: 2s;
+        transition: .2s ease;
+    }
+    .target-pay{
+            font-size: .8em;
+        }
+
+}
+
+
+
+@media(max-width:750px){
+    .contact-content ul{
+        font-size: .8em;
+    }
+    .footer-container{
+        display: block;
+        text-align: center;
+    }
+}
+@media (max-width:700px){
+    .slider{
+        width: 80%;
+    }
+    .img-go, .img-hero, .img-visa{
+        width: 700px;
+    }
+    .img-go{
+        background-position: 60%;
+    }
+    .img-visa{
+        background-position: 40%;
+    }
+    
+    .container-hero{
+        width: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+    
+    }
+    .container-go{
+    right: 10%;
+    left: 10%;
+    width: 80%;
+    background-color: rgba(215, 91, 215, 0.454);;
+    }
+}
+
+@media(max-width: 500px){
+    .slider{
+        width: 80%;
+    }
+    .img-go, .img-hero, .img-visa{
+        width: 500px;
+    }
+
+    .form-container{
+        top: 8%;
+        max-width: 90%;
+    }
+    .novedades-content{
+        font-size: .8em;
+    }
+}
+@media (max-height:512px) {
+    .form-container{
+        top: 10px;
+        font-size: .8em;
+    }
+    .form-container h3{
+        display: none;
+    }
+    .form-ctn-scd{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+}

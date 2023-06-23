@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Integrador</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+    <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="stylesheet" href="assets/mediaqueries.css" />
+  </head>
+
+  <body>
+    <div class="section-container">
+      <header class="header">
+        <div class="logo-navbar">
+          <img src="assets/img/logo.png" alt="Logo India deco" />
+        </div>
+        <nav class="navbar">
+          <div id="menu-label">
+            <i class="fas fa-bars"></i>
+          </div>
+          <ul class="navbar-ul">
+            <li><a href="#hero"> Inicio </a></li>
+            <li><a href="#productos">Productos</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="./signin.html">Iniciar sesión</a></li>
+          </ul>
+
+          <div id="cart-label">
+            <i class="fa-solid fa-cart-shopping"></i>
+          </div> 
+          <div class="cart">
+            <h2>Carrito</h2>
+            <div class="cart-container">
+              <div class="cart-item">
+                <div class="item-info">
+                  <h3 class="item-title">NOMBRE</h3>
+                  <span class="item-price">$1000</span>
+                </div>
+                <div class="item-handler">
+                  <span class="quantity-handler down" data-id="ID">-</span>
+                  <span class="item-quantity">4</span>
+                  <span class="quantity-handler up" data-id="ID">+</span>
+                </div>
+                <img
+                  src="./assets/img/espejo-jazmin.jpg"
+                  alt=""
+                />
+              </div>
+
+            </div>
+            <div class="cart-cont-total">
+                <div class="cart-total">
+                  <p>Total:</p>
+                  <span class="total">$1000</span>
+                </div>
+               <span class="line-span"></span>
+           </div>
+            <button class="btn-buy">Comprar</button>
+            <button class="btn-delete">Vaciar carrito</button>
+          </div>
+  
+          <div class="overlay"></div>
+        </nav>
+      </header>
+    </div> 
+
+      <main>
+        <section class="slider">
+          <div class="slides">
+              <div class="hero">
+                  <div class="container-hero">
+                      <h1>Decoración artesanal</h1>
+                      <p>Al mejor precio</p>
+                      <button>Nuestros productos</button>
+                  </div>
+                  <div class="img-hero"></div>
+              </div>
+              <div class="hero">
+                  <div class="container-visa">
+                  <h1>Decoración artesanal</h1>
+                      <p>Al mejor precio</p>
+                      <button>Nuestros productos</button>
+                  </div>
+                  <div class="img-visa"></div>
+              </div>
+              <div class="hero go-cuotas">
+                  <div class="img-go"></div>
+                  <div class="container-go">
+                      <h2>Cuatro cuotas con tarjeta de debito</h2>
+                      <img src="./assets/img/logo-8ae52d1d1ff80f78868cf8e38326e896525c0dc65840631b5150a5f24bdcceee.svg" alt="" srcset="">
+                  </div>
+              </div>
+          </div>
+          <div class="controls">
+              <button class="prev">&#10094;</button>
+              <button class="next">&#10095;</button>
+          </div>
+        </section>
+        <!-- <div class="section-container">
+          <section class="hero" id="hero">
+            <div class="container-hero">
+              <h1>Decoración artesanal</h1>
+              <p>Al mejor precio</p>
+              <button>Nuestros productos</button>
+            </div>
+            <div class="img-hero"></div>
+          </section>
+        </div> -->
+
+        <div class="section-container">
+          <div class="target-pay">
+            <div class="target-content">
+                <i class="fa-regular fa-credit-card"></i>
+                <span>Pagá en cuotas</span>
+            </div>
+            <div class="target-content">
+                <i class="fa-regular fa-credit-card"></i>
+                <span>Tarjetas de debito</span>
+            </div>
+            <div class="target-content">
+                <i class="fa-regular fa-money-bill-1"></i>
+                <span>Efectivo</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cards -->
+        <div class="section-container">
+          <section class="section-card" id="productos">
+            <h2>Productos</h2>
+            <div class="categories">
+              <button class="category active">Todo</button>
+              <button class="category" data-category="tapices">Tapices</button>
+              <button class="category" data-category="espejos">Espejos</button>
+              <button class="category" data-category="lamparas">Lamparas</button>
+              <button class="category" data-category="maceteros">Maceteros</button>
+              <button class="category" data-category="otros">Otros</button>
+            </div>
+            <div class="card-container">
+              <!-- <div class="card">
+                <img src="./assets/img/tapiz-alas.jpg" alt="" srcset="">
+                <span>$5790</span>
+                <p>Tapiz Volar</p>
+                <button>comprar</button>
+              </div>-->
+            </div> 
+            <button class="btn-mas">ver más</button>
+          </section>
+        </div>
+      </main>
+      <footer class="footer">
+        <div class="contact">
+          <section class="contact-us" id="contacto">
+            <h2>Contacto</h2>
+            <div class="contact-container">
+              <div class="contact-content">
+                <h3>Tienda fisica</h3>
+                <ul>
+                  <li>
+                    <i class="fa-thin fa-inbox"></i>
+                    tienda@indiadesign.com
+                  </li>
+                  <li>
+                    <i class="fa-thin fa-location-dot"></i>
+                    Siempreviva 123, Mar del plata.
+                  </li>
+                  <li>
+                    <i class="fa-thin fa-headset"></i>
+                    (0221)4270215
+                  </li>
+                </ul>
+               </div>
+               <div class="contact-content">
+                <h3>Depósito</h3>
+                <ul>
+                  <li>
+                    <i class="fa-thin fa-inbox"></i>
+                    depositos@indiadesign.com
+                  </li>
+                  <li>
+                    <i class="fa-thin fa-location-dot"></i>
+                    Calle falsa 123, Mar del plata.
+                  </li>
+                  <li>
+                    <i class="fa-thin fa-headset"></i>
+                    (0221)4270215
+                  </li>
+                </ul>
+               </div>
+                <div class="contact-redes">
+                  <a href=""><i class="fa-brands fa-instagram"></i></a>
+                  <a href=""><i class="fa-brands fa-facebook"></i></a>
+                  <a href=""><i class="fa-brands fa-twitter"></i></a>
+                </div>
+            </div>
+          </section>
+        </div>
+        <div class="footer-container">
+        <h4>Copyright Geraldina Guevara</h4>
+        <div class="footer">
+          <ul class="footer-list">
+            <li><a href=""> Ayuda</a></li>
+            <li><a href="">Privacidad</a></li>
+            <li><a href="">Condiciones</a></li>
+            
+          </ul>
+        </div>
+      </div>
+    </footer>
+    <script src="./data.js"></script>
+		<script src="./main.js"></script>
+  </body>
+</html>
