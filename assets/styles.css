@@ -296,9 +296,9 @@ html{
     justify-content: center;
     position: relative;
     overflow: hidden;
-    max-width: 1000px;
-    box-shadow: 0 0 9px 9px rgb(160, 158, 158);
-    border-radius: 10px;
+    max-width: 1200px;
+    box-shadow: 0 0 9px 9px rgba(160, 158, 158, 0.54);
+    border-radius: 5px;
 }
 .slides{
     width: 100%;
@@ -326,7 +326,7 @@ html{
     align-items: center;
 }
 .img-go, .img-hero, .img-visa{
-     width: 1000px;
+     width: 1200px;
     height: 70vh;
     background-repeat: no-repeat;
     background-size: cover;
@@ -386,7 +386,7 @@ html{
     background-color: rgba(255, 255, 255, 0.22) ;
 }
 .img-visa{
-    background-image: url(./img/maxresdefault.jpg);
+    background-image: url(./img/acessorios-colchas-e-almofadas-com-macrame-1642775491869_v2_1170x540.jpg);
     position: center;
 }
 .controls{

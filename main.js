@@ -5,7 +5,7 @@ const barsMenu = document.querySelector(".navbar-ul");
 const barsCart = document.querySelector("#cart-label"); 
 const cartMenu= document.querySelector(".cart");
 const categoriesContainer= document.querySelector(".categories");
-const categoryElements= document.querySelectorAll(".category");
+const categoryList= document.querySelectorAll(".category");
 //slider
 const slider= document.querySelector(".slider")
 const slides= document.querySelector(".slides")
@@ -18,7 +18,7 @@ let cart = JSON.parse(localStorage.getItem("cart"))|| []
 const saveLocalStorage = cartList =>{
 	localStorage.setItem("cart", JSON.stringify(cartList))
 }
-
+//productos
 const createCardProduct =(product) =>{
 	const {id,nombre, precio, imagen} = product;
 	return`
@@ -35,17 +35,25 @@ const createCardProduct =(product) =>{
 	`;
 };
 
-const renderMapProduct = (index=0 ) =>{
+const renderMapProduct = (index=0) =>{
 	const productRendering = appState.dividedProducts[index];
 	cardContainer.innerHTML += productRendering
 		.map(createCardProduct)
 		.join("");
 }
 
-const renderProduct = (index=0) =>{
-		renderMapProduct(index)
-	
+const renderFilterProduct= category =>{
+	const productList= productsData.filter(product => product.category===category)
+	cardContainer.innerHTML = productList.map(createCardProduct).join('')
 }
+
+const renderProduct = (index=0, category = null ) =>{
+		if(!category){
+			renderMapProduct(index)
+		}else{
+			renderFilterProduct(category)
+		}
+}	
 
 const lastIndexProducts =() =>{
 	return appState.nextProductsIndex === appState.productsLimit
@@ -78,31 +86,42 @@ const toggleCart =() =>{
 }
 
 
-const isInactiveBtnCategory= (element)=>{
-	return (
-		 element.classList.contains("category") && 
-		 !element.classList.contains("active")
-	)
-}
-const changeBntActive =(selectedCategory) =>{
-	const categories= [...categoryElements];
-	categories.forEach((categoryBtn)=>{
-		if(categoryBtn.dataset.category !== selectedCategory){
-			categoryBtn.classList.remove("active");
-			return;
+//filter
+
+const stateBtnActive=activeCategory=>{
+	const categories= [...categoryList];
+	categories.forEach(categoryList =>{
+		if(categoryList.dataset.category!==activeCategory){
+			categoryList.classList.remove('active');
+		}else{
+			categoryList.classList.add('active')
 		}
-		categoryBtn.classList.add("active");
 	})
+	
 }
-const changeFilterActive =(btn)=>{
-	appState.activeFilter= btn.dataset.category;
-	changeBntActive(appState.activeFilter);
-}
-const applyCategory=({target}) =>{
-	if(!isInactiveBtnCategory(target)) {
-		return;
+
+const stateShowMore =(activeCategory) =>{
+	if(!activeCategory){
+		btnMas.classList.remove('hidden')
+	}else{
+		btnMas.classList.add('hidden')
 	}
-	changeFilterActive(target);
+}
+const changeFilter = activeCategory =>{
+	stateBtnActive(activeCategory);
+	stateShowMore(activeCategory);
+}
+const applyCategory=(e) =>{
+	if(!e.target.classList.contains('category')) return; 
+	const selectedCategory = e.target.dataset.category;
+	if(!selectedCategory){
+		cardContainer.innerHTML='';
+		renderProduct()
+	}else{
+		renderProduct(0, selectedCategory);
+		appState.nextProductsIndex=1;
+	}
+	changeFilter(selectedCategory);
 }
 
 //slider
