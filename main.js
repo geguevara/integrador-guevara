@@ -253,7 +253,7 @@ const addProduct =(e) =>{
 	const {id, nombre, precio, imagen}= e.target.dataset;
 	const product = {id, nombre, precio, imagen};
 	if(isProductCart(product.id)){
-		addUnitToProduct(product);
+		addQuantityProduct(product);
 	}else{
 		createCartProduct(product);
 		showModal('El producto se ha agregado al carrito.')
