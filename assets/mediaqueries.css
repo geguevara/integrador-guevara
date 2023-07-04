@@ -48,7 +48,7 @@
     .open-menu{
         display: flex;
         animation: bounceInLeft;
-        animation-duration: 2s;
+        animation-duration: 1.5s;
         transition: .2s ease;
     }
     .target-pay{

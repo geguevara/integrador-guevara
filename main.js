@@ -4,19 +4,22 @@ const barsBtnMenu = document.querySelector("#menu-label");
 const barsMenu = document.querySelector(".navbar-ul"); 
 const barsCart = document.querySelector("#cart-label"); 
 const cartMenu= document.querySelector(".cart");
+const cartContainer = document.querySelector(".cart-container");
+const totalCart = document.querySelector(".total")
 const categoriesContainer= document.querySelector(".categories");
 const categoryList= document.querySelectorAll(".category");
-//slider
+const overlay = document.querySelector(".overlay")
+const viewModal = document.querySelector(".add-modal")
 const slider= document.querySelector(".slider")
 const slides= document.querySelector(".slides")
 const prevBtn= document.querySelector(".prev")
 const nextBtn= document.querySelector(".next")
 
 
-let cart = JSON.parse(localStorage.getItem("cart"))|| []
+let cart = JSON.parse(localStorage.getItem("cart")) || []
 
-const saveLocalStorage = cartList =>{
-	localStorage.setItem("cart", JSON.stringify(cartList))
+const saveLocalStorage = () =>{
+	localStorage.setItem("cart", JSON.stringify(cart))
 }
 //productos
 const createCardProduct =(product) =>{
@@ -74,7 +77,7 @@ const toggleMenu =() =>{
 		cartMenu.classList.remove("open-cart");
 		return;
 	}
-	/* overlay.classList.toggle("show-overlay"); */
+    overlay.classList.toggle('toggle-overlay')
 };
 
 const toggleCart =() =>{
@@ -83,6 +86,7 @@ const toggleCart =() =>{
 		barsMenu.classList.remove('open-menu');
 		return;
 	}
+	overlay.classList.toggle('toggle-overlay')
 }
 
 
@@ -123,7 +127,29 @@ const applyCategory=(e) =>{
 	}
 	changeFilter(selectedCategory);
 }
+//funciones del overlay
 
+const closeOnClick = (e) => {
+	if (!e.target.classList.contains("navbar-li")) {
+		return;
+	}
+	barsMenu.classList.remove("open-menu");
+	overlay.classList.remove("toggle-overlay");
+};
+const closeOnOverlay =()=>{
+	barsMenu.classList.remove("open-menu");
+	cartMenu.classList.remove("open-cart");
+	overlay.classList.remove("toggle-overlay");
+}
+const closeOnScoll = () =>{
+	if (
+		!barsMenu.classList.contains("open-menu") &&
+		!cartMenu.classList.contains("open-cart")
+	)return;
+	barsMenu.classList.remove("open-menu");
+	cartMenu.classList.remove("open-cart");
+	overlay.classList.remove("toggle-overlay");
+}
 //slider
 
 const slideWidth= slides.clientWidth;
@@ -154,16 +180,99 @@ const prevSlide= ()=>{
 setInterval(function(){
     nextSlide();
 }, 4000);
+//carrito
 
+const renderCartProduct =(prod) =>{
+	const {nombre, imagen, precio, id, cantidad} =prod;
+	return`
+		<div class="cart-product">
+			<div class="product-info">
+				<h3 class="product-title">${nombre}</h3>
+				<span class="product-price">${precio}</span>
+			</div>
+		<div class="product-handler">
+			<span class="quantity-handler down" data-id="${id}">-</span>
+			<span class="product-quantity">${cantidad}</span>
+			<span class="quantity-handler up" data-id="${id}">+</span>
+		</div>
+		<img
+			src=${imagen}
+			alt="${nombre}"
+		/>
+		</div>
+	`
 
+}
+const renderCart =() =>{
+	if (!cartMenu.length){
+		cartContainer.innerHTML= `<p>No hay productos seleccionados.<p>`
+	}else{
+		cartContainer.innerHTML= cart.map(renderCartProduct).join('')
+	}
 
+}
 
+const getTotalcart =()=>{
+	return cart.reduce((acc, currentValue)=>{
+		return acc + Number(currentValue.precio)*currentValue.cantidad}, 0)
+}
+
+const changeTotal =() =>{
+	totalCart.innerHTML= `$${getTotalcart()}`
+}
+const isProductCart = (productId) => {
+	return cart.find((item) => {
+		return item.id === productId;
+	});
+};
+const createCartProduct =(product) =>{
+	cart =[... cart, {...product, cantidad:1}];
+}
+const showModal =(mesagge)=>{
+	viewModal.classList.add('active-modal');
+	viewModal.textContent= mesagge;
+	setTimeout(()=>{
+		viewModal.classList.remove('active-modal');
+	}, 2000)
+}
+const addUnitToProduct = (product) => {
+	cart = cart.map((cartProduct) => {
+		return cartProduct.id === product.id
+			? { ...cartProduct, quantity: cartProduct.quantity + 1 }
+			: cartProduct;
+	});
+};
+
+const stateCart =() =>{
+	saveLocalStorage();
+	renderCart();
+	changeTotal();
+} 
+const addProduct =(e) =>{
+	if(!e.target.classList.contains('btn-add')) return;
+	const {id, nombre, precio, imagen}= e.target.dataset;
+	const product = {id, nombre, precio, imagen};
+	if(isProductCart(product.id)){
+		addUnitToProduct(product);
+	}else{
+		createCartProduct(product);
+		showModal('El producto se ha agregado al carrito.')
+	}
+    stateCart();
+}
+  
 
 const init = () =>{
     renderProduct();
 	btnMas.addEventListener("click", showMoreProducts);
 	barsBtnMenu.addEventListener("click", toggleMenu);
 	barsCart.addEventListener("click", toggleCart);
+	barsMenu.addEventListener("click", closeOnClick);
+	overlay.addEventListener("click", closeOnOverlay);
+	window.addEventListener('scroll', closeOnScoll);
+	document.addEventListener('DOMContentLoaded', renderCart);
+	document.addEventListener('DOMContentLoaded', changeTotal);
+	cardContainer.addEventListener('click',addProduct);
 	categoriesContainer.addEventListener("click", applyCategory);
 	nextBtn.addEventListener("click", nextSlide);
 	prevBtn.addEventListener("click",prevSlide);

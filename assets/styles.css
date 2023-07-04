@@ -29,18 +29,23 @@ html{
 
 }
 .section-container{
-    background-color: var(--beige);
     max-width: 90%;
     margin: auto;
     display: flex;
     flex-direction: column;
 }
 .header{
+    background-color: var(--beige);
     width: 100%;
-    height: 80px;
+    height: 70px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: fixed;
+    box-shadow:0 2px 9px 1px rgba(168, 177, 113, 0.068);
+    top: 0;
+    left: 0;
+    z-index: 2;
 }
 .logo-navbar img{
     width: 12vw;
@@ -108,6 +113,9 @@ html{
     overflow-y: scroll;
     z-index: 2;
     min-width: 400px;
+    animation: bounceInRight;
+    animation-duration: 1.5s;
+    transition: .2s ease;
     display: none;
   }
   .open-cart {
@@ -123,7 +131,7 @@ html{
     display: none;
   }
   
-  .cart-item {
+  .cart-product {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -135,7 +143,7 @@ html{
     position: relative;
   }
   
-  .cart-item img {
+  .cart-product img {
     width: 40%;
     height: 100%;
     border-radius: 0 10px 10px 0;
@@ -144,7 +152,7 @@ html{
     background-size: cover;
   }
   
-  .item-info {
+  .product-info {
     padding-left: 15px ;
     gap: 5px;
     display: flex;
@@ -152,14 +160,14 @@ html{
     
   }
   
-  .item-title {
+  .product-title {
     color: var(--text-white);
     font-weight: 600;
     font-size: 14px;
   }
   
   
-  .item-handler {
+  .product-handler {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -177,7 +185,7 @@ html{
     font-size: 1.7rem;
   }
   
-  .item-quantity {
+  .product-quantity {
     color:#d47552;
     padding: 0 10px;
     border-left:  1px solid rgba(205, 200, 200, 0.333);
@@ -239,55 +247,40 @@ html{
 
 
   .overlay{
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    background: rgba(200, 255, 138, 0.123);
+    z-index: 1;
     display: none;
   }
 
-/* main */
-/* .hero{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 10px 0 20px 0;
-}
-.container-hero{
-    color:var(--text-gray);
-    font-size: 2.7rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 25px;
-}
-.container-hero button{
-    color: var(--beige);
-    background-color: var(--green);
-    border: 1px solid var(--green);
-    border-radius: 15px;
-    cursor: pointer;
-    padding: 10px;
-    letter-spacing: 2px;
-    font-weight: 600;
-    transition: 1s ease;
+  .toggle-overlay{
+    display: block;
+    -webkit-animation: slide-in-top .5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-in-top .5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  }
 
+  @keyframes slide-in-top {
+    0% {
+      -webkit-transform: translateY(-1000px);
+              transform: translateY(-1000px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateY(0);
+              transform: translateY(0);
+      opacity: 1;
+    }
 }
-.container-hero button:hover{
-    background-color: var(--green-dark);
-    box-shadow: 0 0px 12px 2px var(--green);
-    font-size: .4em;
-    border: #0b0c0a;
-    transition: 500ms ease-out all;
+
+main{
+    margin-top: 100px;
 }
-.img-hero{
-    background-image:url(./img/macrame1.jpg);
-    min-width: 250px;
-    width: 30%;
-    height: 50vh;
-    margin-top: 10px;
-    max-height: 340px;
-    border-radius: 5px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-} */
 .slider{
     width: 100%;
     margin: 30px auto;
@@ -551,7 +544,30 @@ html{
     transition: 1s ease;
     background-color: var(--brown);
 }
+.add-modal{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #283618;
+    background: var(--beige);
+    border: 1px solid var(--ct-green);
+    border-radius: 10px;
+    width: 40%;
+    transition: all 0.5s ease-out;
+    transform: translateY(200%);
+    position: fixed;
+    top: 100px;
+    left: 30%;
+    font-size: 1em;
+    letter-spacing: 1px;
+    box-shadow: 0 0 20px 2px var(--green-dark);
+}
 
+.active-modal {
+    transform: translateY(0);
+    transition: all 0.5s ease-in;
+  }
+  
 /* fotter */
 
 .contact-us {
