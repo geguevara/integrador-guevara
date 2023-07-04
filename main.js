@@ -235,10 +235,10 @@ const showModal =(mesagge)=>{
 		viewModal.classList.remove('active-modal');
 	}, 2000)
 }
-const addUnitToProduct = (product) => {
+const addQuantityProduct = (product) => {
 	cart = cart.map((cartProduct) => {
 		return cartProduct.id === product.id
-			? { ...cartProduct, quantity: cartProduct.quantity + 1 }
+			? { ...cartProduct, cantidad: cartProduct.cantidad + 1 }
 			: cartProduct;
 	});
 };
