@@ -5,7 +5,9 @@ const barsMenu = document.querySelector(".navbar-ul");
 const barsCart = document.querySelector("#cart-label"); 
 const cartMenu= document.querySelector(".cart");
 const cartContainer = document.querySelector(".cart-container");
-const totalCart = document.querySelector(".total")
+const totalCart = document.querySelector(".total");
+const buyBtn= document.querySelector(".btn-buy");
+const deleteBtn= document.querySelector(".btn-delete");
 const categoriesContainer= document.querySelector(".categories");
 const categoryList= document.querySelectorAll(".category");
 const overlay = document.querySelector(".overlay")
@@ -18,20 +20,20 @@ const nextBtn= document.querySelector(".next")
 
 let cart = JSON.parse(localStorage.getItem("cart")) || []
 
-const saveLocalStorage = () =>{
-	localStorage.setItem("cart", JSON.stringify(cart))
+const saveLocalStorage = (cartList) =>{
+	localStorage.setItem("cart", JSON.stringify(cartList))
 }
 //productos
 const createCardProduct =(product) =>{
 	const {id,nombre, precio, imagen} = product;
 	return`
 		<div class="card">
-             <img src=${imagen} alt=${nombre} >
+            <img src=${imagen} alt=${nombre} >
+			<p>${nombre}</p>
             <span>$${precio}</span>
-            <p>${nombre}</p>
             <button class= "btn-add"
 			data-id="${id}"
-			data-img="${imagen}"
+			data-imagen="${imagen}"
 			data-precio="${precio}"
 			data-nombre="${nombre}">comprar</button>
          </div>
@@ -182,13 +184,13 @@ setInterval(function(){
 }, 4000);
 //carrito
 
-const renderCartProduct =(prod) =>{
-	const {nombre, imagen, precio, id, cantidad} =prod;
-	return`
+const renderCartProduct =(product) =>{
+	const {nombre, imagen, precio, id, cantidad} =product;
+	return `
 		<div class="cart-product">
 			<div class="product-info">
 				<h3 class="product-title">${nombre}</h3>
-				<span class="product-price">${precio}</span>
+				<span class="product-price">$${precio}</span>
 			</div>
 		<div class="product-handler">
 			<span class="quantity-handler down" data-id="${id}">-</span>
@@ -200,16 +202,15 @@ const renderCartProduct =(prod) =>{
 			alt="${nombre}"
 		/>
 		</div>
-	`
+	`;
 
 }
 const renderCart =() =>{
-	if (!cartMenu.length){
+	if (!cart.length){
 		cartContainer.innerHTML= `<p>No hay productos seleccionados.<p>`
-	}else{
-		cartContainer.innerHTML= cart.map(renderCartProduct).join('')
+		return;
 	}
-
+	cartContainer.innerHTML= cart.map(renderCartProduct).join('');
 }
 
 const getTotalcart =()=>{
@@ -228,40 +229,103 @@ const isProductCart = (productId) => {
 const createCartProduct =(product) =>{
 	cart =[... cart, {...product, cantidad:1}];
 }
-const showModal =(mesagge)=>{
+const showModal =(message)=>{
 	viewModal.classList.add('active-modal');
-	viewModal.textContent= mesagge;
+	viewModal.textContent= message;
 	setTimeout(()=>{
 		viewModal.classList.remove('active-modal');
-	}, 2000)
+	}, 1000)
 }
 const addQuantityProduct = (product) => {
 	cart = cart.map((cartProduct) => {
 		return cartProduct.id === product.id
 			? { ...cartProduct, cantidad: cartProduct.cantidad + 1 }
-			: cartProduct;
+			: cartProduct
 	});
 };
 
 const stateCart =() =>{
-	saveLocalStorage();
+	saveLocalStorage(cart);
 	renderCart();
 	changeTotal();
+	blockedBtn(buyBtn);
+	blockedBtn(deleteBtn);
 } 
+const blockedBtn =(button) =>{
+	if(!cart.length){
+		button.classList.add('off-btn')
+		return;
+	}
+	button.classList.remove('off-btn')
+}
 const addProduct =(e) =>{
 	if(!e.target.classList.contains('btn-add')) return;
 	const {id, nombre, precio, imagen}= e.target.dataset;
 	const product = {id, nombre, precio, imagen};
 	if(isProductCart(product.id)){
 		addQuantityProduct(product);
+		showModal('Se agrego otro item al carrito')
 	}else{
 		createCartProduct(product);
 		showModal('El producto se ha agregado al carrito.')
 	}
     stateCart();
 }
-  
+const completeBuy =()=>{
+	alertCartbtn(
+	"¿Desea finalizar su compra?",
+	"Gracias por confiar en India Deco!"
+	)
+}
+const deleteCart =() =>{
+	alertCartbtn(
+		"¿Desea eliminar todos los productos?",
+		"Productos eliminados de su carrito" 
+	)
+}
+const resetCart =()=>{
+	cart =[];
+	stateCart();
+}
+const alertCartbtn =(question, answer) =>{
+	if(!cart.length) return;
+	if(window.confirm(question)){
+		resetCart();
+		alert(answer)	
+	}
+}
+const removeProdCart = ({id}) =>{
+	cart= cart.filter (product => product.id !==id)
+	stateCart()
+}
+const minimumSustractProd =({id}) =>{
+	cart =cart.map(product=>product.id === id
+		? {...product, cantidad:product.cantidad -1}
+		:isProductCart)
+}
+const handleSubtractProd =(id) =>{
+	const isProduct = cart.find (product => product.id ===id);
+	if(isProduct.cantidad===1){ 
+		if(window.confirm("¿Desea eliminar todos los productos?")) {
+		removeProdCart(isProduct)
+		}
+		return;
+	}
+	minimumSustractProd(isProduct);
 
+}
+const handleAddProd =(id) =>{
+	const isProduct = cart.find (product => product.id ===id);
+	addQuantityProduct(isProduct)
+}
+const handleCounter =(e) =>{
+	if(e.target.classList.contains('down')){
+		handleSubtractProd(e.target.dataset.id);
+	}else if(e.target.classList.contains('up')){
+		handleAddProd(e.target.dataset.id)
+	}
+	stateCart()
+}
 const init = () =>{
     renderProduct();
 	btnMas.addEventListener("click", showMoreProducts);
@@ -276,5 +340,10 @@ const init = () =>{
 	categoriesContainer.addEventListener("click", applyCategory);
 	nextBtn.addEventListener("click", nextSlide);
 	prevBtn.addEventListener("click",prevSlide);
+	buyBtn.addEventListener('click', completeBuy);
+	deleteBtn.addEventListener('click',deleteCart)
+	cartContainer.addEventListener('click', handleCounter)
+	blockedBtn(buyBtn);
+	blockedBtn(deleteBtn);
 }
 init()
