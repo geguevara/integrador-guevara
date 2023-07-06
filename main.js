@@ -7,7 +7,7 @@ const cartMenu= document.querySelector(".cart");
 const cartContainer = document.querySelector(".cart-container");
 const totalCart = document.querySelector(".total");
 const buyBtn= document.querySelector(".btn-buy");
-const deleteBtn= document.querySelector(".btn-delete");
+const removeBtn= document.querySelector(".btn-delete");
 const categoriesContainer= document.querySelector(".categories");
 const categoryList= document.querySelectorAll(".category");
 const overlay = document.querySelector(".overlay")
@@ -20,8 +20,8 @@ const nextBtn= document.querySelector(".next")
 
 let cart = JSON.parse(localStorage.getItem("cart")) || []
 
-const saveLocalStorage = (cartList) =>{
-	localStorage.setItem("cart", JSON.stringify(cartList))
+const saveLocalStorage = () =>{
+	localStorage.setItem("cart", JSON.stringify(cart))
 }
 //productos
 const createCardProduct =(product) =>{
@@ -131,19 +131,19 @@ const applyCategory=(e) =>{
 }
 //funciones del overlay
 
-const closeOnClick = (e) => {
+const closeClick = (e) => {
 	if (!e.target.classList.contains("navbar-li")) {
 		return;
 	}
 	barsMenu.classList.remove("open-menu");
 	overlay.classList.remove("toggle-overlay");
 };
-const closeOnOverlay =()=>{
+const closeOverlay =()=>{
 	barsMenu.classList.remove("open-menu");
 	cartMenu.classList.remove("open-cart");
 	overlay.classList.remove("toggle-overlay");
 }
-const closeOnScoll = () =>{
+const closeScoll = () =>{
 	if (
 		!barsMenu.classList.contains("open-menu") &&
 		!cartMenu.classList.contains("open-cart")
@@ -155,7 +155,7 @@ const closeOnScoll = () =>{
 //slider
 
 const slideWidth= slides.clientWidth;
-console.log(slideWidth)
+//console.log(slideWidth)
 
 let slideIndex= 0;
 const moveSlide =()=>{
@@ -181,11 +181,11 @@ const prevSlide= ()=>{
 }
 setInterval(function(){
     nextSlide();
-}, 4000);
+}, 4200);
 //carrito
 
-const renderCartProduct =(product) =>{
-	const {nombre, imagen, precio, id, cantidad} =product;
+const renderCartProduct =(producto) =>{
+	const {nombre, imagen, precio, id, cantidad} =producto;
 	return `
 		<div class="cart-product">
 			<div class="product-info">
@@ -213,17 +213,18 @@ const renderCart =() =>{
 	cartContainer.innerHTML= cart.map(renderCartProduct).join('');
 }
 
-const getTotalcart =()=>{
+const calculatorTotal =()=>{
 	return cart.reduce((acc, currentValue)=>{
-		return acc + Number(currentValue.precio)*currentValue.cantidad}, 0)
+		return acc + Number(currentValue.precio)*Number(currentValue.cantidad)
+	}, 0);
 }
 
 const changeTotal =() =>{
-	totalCart.innerHTML= `$${getTotalcart()}`
+	totalCart.innerHTML= `$${calculatorTotal()}`
 }
-const isProductCart = (productId) => {
-	return cart.find((item) => {
-		return item.id === productId;
+const isProductCart = (itemId) => {
+	return cart.find((p) => {
+		return p.id === itemId;
 	});
 };
 const createCartProduct =(product) =>{
@@ -240,16 +241,16 @@ const addQuantityProduct = (product) => {
 	cart = cart.map((cartProduct) => {
 		return cartProduct.id === product.id
 			? { ...cartProduct, cantidad: cartProduct.cantidad + 1 }
-			: cartProduct
+			: cartProduct;
 	});
 };
 
 const stateCart =() =>{
-	saveLocalStorage(cart);
+	saveLocalStorage();
 	renderCart();
 	changeTotal();
 	blockedBtn(buyBtn);
-	blockedBtn(deleteBtn);
+	blockedBtn(removeBtn);
 } 
 const blockedBtn =(button) =>{
 	if(!cart.length){
@@ -291,23 +292,26 @@ const alertCartbtn =(question, answer) =>{
 	if(!cart.length) return;
 	if(window.confirm(question)){
 		resetCart();
-		alert(answer)	
+		alert(answer);
 	}
 }
-const removeProdCart = ({id}) =>{
-	cart= cart.filter (product => product.id !==id)
-	stateCart()
+const removeProdCart = (prodExistente) =>{
+	cart= cart.filter(product => product.id !==prodExistente.id);
+	stateCart();
 }
-const minimumSustractProd =({id}) =>{
-	cart =cart.map(product=>product.id === id
-		? {...product, cantidad:product.cantidad -1}
-		:isProductCart)
+const minimumSustractProd =(isProduct) =>{
+	cart =cart.map((product)=>{
+		return product.id === isProduct.id
+		? {...product, cantidad:Number(product.cantidad) -1}
+		:product
+	});
 }
+		
 const handleSubtractProd =(id) =>{
-	const isProduct = cart.find (product => product.id ===id);
+	const isProduct = cart.find((product) => product.id === id);
 	if(isProduct.cantidad===1){ 
 		if(window.confirm("¿Desea eliminar todos los productos?")) {
-		removeProdCart(isProduct)
+			removeProdCart(isProduct);
 		}
 		return;
 	}
@@ -315,7 +319,7 @@ const handleSubtractProd =(id) =>{
 
 }
 const handleAddProd =(id) =>{
-	const isProduct = cart.find (product => product.id ===id);
+	const isProduct = cart.find(product => product.id ===id);
 	addQuantityProduct(isProduct)
 }
 const handleCounter =(e) =>{
@@ -331,9 +335,9 @@ const init = () =>{
 	btnMas.addEventListener("click", showMoreProducts);
 	barsBtnMenu.addEventListener("click", toggleMenu);
 	barsCart.addEventListener("click", toggleCart);
-	barsMenu.addEventListener("click", closeOnClick);
-	overlay.addEventListener("click", closeOnOverlay);
-	window.addEventListener('scroll', closeOnScoll);
+	barsMenu.addEventListener("click", closeClick);
+	overlay.addEventListener("click", closeOverlay);
+	window.addEventListener('scroll', closeScoll);
 	document.addEventListener('DOMContentLoaded', renderCart);
 	document.addEventListener('DOMContentLoaded', changeTotal);
 	cardContainer.addEventListener('click',addProduct);
@@ -341,9 +345,9 @@ const init = () =>{
 	nextBtn.addEventListener("click", nextSlide);
 	prevBtn.addEventListener("click",prevSlide);
 	buyBtn.addEventListener('click', completeBuy);
-	deleteBtn.addEventListener('click',deleteCart)
+	removeBtn.addEventListener('click',deleteCart)
 	cartContainer.addEventListener('click', handleCounter)
 	blockedBtn(buyBtn);
-	blockedBtn(deleteBtn);
+	blockedBtn(removeBtn);
 }
 init()
