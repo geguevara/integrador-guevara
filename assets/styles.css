@@ -106,7 +106,7 @@ html {
   top: 70px;
   right: 0;
   padding: 50px 30px;
-  background: #dedddd;
+  background: #f3eedf;
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -119,6 +119,10 @@ html {
   transition: 0.2s ease;
   display: none;
 }
+.cart h2{
+  color: var(--ct-green);
+}
+
 .open-cart {
   display: flex;
 }

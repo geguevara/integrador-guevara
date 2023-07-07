@@ -37,7 +37,7 @@
     width: 400px;
     height: calc(100vh - 80px);
     position: absolute;
-    background-color: #dedddd;
+    background-color: #f3eedf;
     flex-direction: column;
     top: 70px;
     left: 0;
