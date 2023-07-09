@@ -136,6 +136,12 @@
     }
 }
 @media (max-width: 500px) {
+  .navbar-ul {
+    width: 100%;
+  }
+  .cart{
+    width: 100%;
+  }
   .slider {
     width: 90%;
   }
